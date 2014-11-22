@@ -1,5 +1,6 @@
-﻿using System.Web.Mvc;
-using System.Web.Security;
+using System.Linq;
+using System.Web.Mvc;
+using Antlr.Runtime;
 using Scheduler.Models;
 
 namespace Scheduler.Controllers
@@ -8,21 +9,25 @@ namespace Scheduler.Controllers
     {
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public Models.Scheduler[] GetSchedules()
+        {
+            int faculty;
+            int.TryParse(Request["faculty"] ?? "1", out faculty) ;
+            int course;
+            int.TryParse(Request["course"] ?? "1", out course) ;
+            int group;
+            int.TryParse(Request["group"] ?? "1", out group) ;
+            int week;
+            int.TryParse(Request["week"] ?? "1", out week) ;
+
             using (var db = new Db())
             {
-                db.Roles.Add(new Role() {RoleName = "Admin"});
-                db.Users.Add(new User()
-                {
-                    Email = "mitzyk@mail.ru",
-                    FirstName =  "Andrey",
-                    LastName = "Mitsyk",
-                    Password = "1234"
-                });
-                db.SaveChanges();
+                db.Scheduler.Where(s => s.Faculty.Id == faculty);
             }
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
+            return null;
         }
     }
 }

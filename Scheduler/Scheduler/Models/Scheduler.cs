@@ -11,5 +11,6 @@ namespace Scheduler.Models
         public Teacher Teacher { get; set; }
         public Group Group { get; set; }
         public DateTime Date { get; set; }
+        public Faculty Faculty { get; set; }
     }
 }
