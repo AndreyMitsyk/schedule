@@ -6,7 +6,7 @@ namespace Scheduler.Models
     {
         public long Id { get; set; }
         public Discipline Discipline { get; set; }
-        public DisciplineForm Discipline_form { get; set; }
+        public DisciplineForm DisciplineForm { get; set; }
         public Place Place { get; set; }
         public Teacher Teacher { get; set; }
         public Group Group { get; set; }

@@ -14,6 +14,9 @@ namespace Scheduler.Models
         public DbSet<Discipline> Discipline { get; set; }
         public DbSet<DisciplineForm> DisciplineForm { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
-        public DbSet<Group> Group { get; set; }
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }
