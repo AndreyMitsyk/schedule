@@ -1,0 +1,7 @@
+package/
+package/*
+bin/
+bin/*
+obj/
+obj/*
+*.suo
