@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <tr>
+        <td style="width: 103px">
+            <span id="ContentPlaceHolder1_lblSubDivision" style="font-weight: bold;">Факультет</span>&nbsp;&nbsp;
+        </td>
+        <td style="vertical-align: middle; padding: 0" colspan="3">
+            <select name="ctl00$ContentPlaceHolder1$ddlSubDivision" onchange="javascript:setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$ddlSubDivision\',\'\')', 0)" id="ContentPlaceHolder1_ddlSubDivision" style="width: 145px;">
+                <option selected="selected" value="30000">НХиТ</option>
+                <option value="10000">ОХиТ</option>
+                <option value="40000">ХТиК</option>
+                <option value="20000">ИУФИС</option>
+
+
+            </select>
+            &nbsp;
+                    <span id="ContentPlaceHolder1_lObjectType" style="font-weight: bold;">Курс</span>
+            <select name="ctl00$ContentPlaceHolder1$ddlCorse" onchange="javascript:setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$ddlCorse\',\'\')', 0)" id="ContentPlaceHolder1_ddlCorse" style="width: 49px;">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+            </select>
+            <span id="Span1" style="font-weight: bold;">Группа</span>
+
+            <select name="ctl00$ContentPlaceHolder1$ddlObjectValue" onchange="javascript:setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$ddlObjectValue\',\'\')', 0)" id="ContentPlaceHolder1_ddlObjectValue" style="width: 130px;">
+                <option value="736">41</option>
+                <option value="790">41м</option>
+                <option value="737">42</option>
+                <option value="738">43</option>
+                <option value="791">43м</option>
+                <option value="739">45</option>
+                <option value="740">46</option>
+                <option value="741">47</option>
+                <option value="789">48</option>
+
+            </select>
+
+            <p></p>
+        </td>
+    </tr>
+
+
+
+    <table id="sheduleTable" class="shedule" border="100"  style="color:DeepPink;border-color:Red">
+        <tbody>
+
+            <tr>
+
+                <span id="Span2" style="font-weight: bold;">Месяц</span>&nbsp;
+            <select name="ctl00$ContentPlaceHolder1$ddlObjectValue" onchange="javascript:setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$ddlObjectValue\',\'\')', 0)" id="Select1" style="width: 130px;">
+
+
+
+
+                <option value="790">Январь</option>
+                <option value="790">Февраль</option>
+                <option value="790">Март</option>
+                <option value="790">Апрель</option>
+                <option value="790">Май</option>
+                <option value="790">Июнь</option>
+                <option value="790">Июль</option>
+                <option value="790">Август</option>
+                <option value="790">Сентябрь</option>
+                <option value="790">Октябрь</option>
+                <option value="790">Ноябрь</option>
+                <option value="790">Декабрь</option>
+
+
+            </select>
+                &nbsp;
+
+             <span id="Span3" style="font-weight: bold;">Неделя</span>&nbsp
+             <select name="ctl00$ContentPlaceHolder1$ddlObjectValue" onchange="javascript:setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$ddlObjectValue\',\'\')', 0)" id="Select2" style="width: 130px;">
+
+                 <option value="736">1</option>
+                 <option value="790">2</option>
+
+
+             </select>
+
+
+
+            </tr>
+
+            <tr class="caption">
+
+                <td width="70px" rowspan="2">Время</td>
+
+            </tr>
+
+            <tr id="Tr1" class="caption">
+                <td>Понедельник</td>
+                <td>Вторник</td>
+                <td>Среда</td>
+                <td>Четверг</td>
+                <td>Пятница</td>
+                <td>Суббота</td>
+            </tr>
+
+            <tr height="30">
+
+                <td class="caption" width="80px">8.00 - 9.35</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFEFFD">Метр. об. АСУТП лаб. Маршалов Е.Д. А221</td>
+                <td rowspan="1" width="150px" style="background: #E5FFE5">Сист. ан. СУ сем. Коровин Д.И. А219б</td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">9.50-11.25</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td id="maxCol" rowspan="1" width="150px" style="background: #E5FFE5">Мат. модел. СУ к.пр. Никоноров А.Н. А221</td>
+                <td rowspan="1" width="150px" style="background: #E5FFE5">Комп.тех.упр. к.пр. Никитин К.Б. А221</td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">11.40-13.15</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #E5FFE5">Комп.тех.упр. сем. Никитин К.Б. А221</td>
+                <td rowspan="1" width="150px" style="background: #E5FFE5">Адапт. упр. сем. Никоноров А.Н. А219б</td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">13:30-15.05</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #E5FFE5">Реж. раб. ТЭС сем. Зорин М.Ю. В428</td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">15.20-16.55</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">17.10-18.45</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+
+            </tr>
+            <tr height="30">
+                <td class="caption" width="80px">19.00-21.35</td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+                <td rowspan="1" width="150px" style="background: #FFFFFF"></td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+</body>
+</html>
+
