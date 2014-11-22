@@ -10,9 +10,10 @@ namespace Schedule_model
     {
         public long Id { get; set; }
         public Discipline Discipline { get; set; }
+        public Discipline_form Discipline_form { get; set; }
         public Place Place { get; set; }
         public Teacher Teacher { get; set; }
-        public Time Time { get; set; }
         public Group Group { get; set; }
+        public DateTime Date { get; set; }
     }
 }

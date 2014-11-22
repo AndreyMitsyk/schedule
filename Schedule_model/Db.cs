@@ -13,11 +13,13 @@ namespace Schedule_model
         {
             
         }
+
+
         public DbSet<Scheduler> Scheduler { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Discipline> Discipline { get; set; }
+        public DbSet<Discipline_form> Discipline_form { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
-        public DbSet<Time> Time { get; set; }
         public DbSet<Group> Group { get; set; }
     }
 }

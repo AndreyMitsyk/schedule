@@ -13,6 +13,11 @@ namespace schedule.Controllers
         {
             using (var db = new Db())
             {
+                db.Discipline.Add(new Discipline() {DisciplineName = "test"});
+                db.Places.Add(new Place() {Auditorium = "DK-12"});
+                db.Teacher.Add(new Teacher() {Name = "Willager 42"});
+                db.Discipline_form.Add(new Discipline_form() {DisciplineFormName = "Лекция"});
+                db.Group.Add(new Group() {Number = "3-42"});
                 
                 db.SaveChanges();
             }

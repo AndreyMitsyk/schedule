@@ -51,7 +51,6 @@
     <Compile Include="Discipline.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="Time.cs" />
     <Compile Include="Teacher.cs" />
     <Compile Include="Place.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
