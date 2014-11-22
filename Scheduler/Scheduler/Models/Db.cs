@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Scheduler.Models
 {
-    public class Db:DbContext
+    public class Db : DbContext
     {
-        public Db():base("sa")
+        public Db()
+            : base("DefaultConnection")
         {
-            
         }
 
         public DbSet<Scheduler> Scheduler { get; set; }
