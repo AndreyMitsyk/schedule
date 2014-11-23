@@ -1,0 +1,261 @@
+﻿@using System.Globalization
+@using System.Web.UI.WebControls
+@using Scheduler.Models
+@model Scheduler.Models.AdminModel
+@{
+    ViewBag.Title = "Админка";
+    var db = (Db)ViewBag.Db;
+}
+@using (Html.BeginForm())
+{
+    <div class="row find-controls">
+        <div class="form-inline" role="form">
+            <div class="form-group">
+                <label>Номер</label>
+                @Html.DropDownListFor(items => Model.Id, db.AdminModels.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Id.ToString(CultureInfo.InvariantCulture),
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Факультет</label>
+                @Html.DropDownListFor(items => Model.FacultyId, db.Faculties.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Name,
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Курс</label>
+                @Html.DropDownListFor(items => Model.CourseId, db.Courses.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Name,
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Группа</label>
+                @Html.DropDownListFor(items => Model.GroupId, db.Groups.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Name,
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>День недели</label>
+                @Html.DropDownListFor(items => Model.DayOfWeekItemId, db.DayOfWeekItems.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Name,
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Неделя</label>
+                @Html.DropDownListFor(items => Model.WeekNumberId, db.WeekNumbers.ToArray().Select(a =>
+                    new SelectListItem
+                    {
+                        Text = a.Name,
+                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                    }), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <p></p>
+    <div class="row">
+        <table class="table-condensed text-center">
+            <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Предмет</th>
+                    <th>Тип занятия</th>
+                    <th>Преподователь</th>
+                    <th>Аудитория</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int index = 0; index < Model.ScheduleItems.Length; index++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(items => Model.ScheduleItems[index].SubjectTimeId, db.LessonTimes.ToArray().Select(a =>
+                                new SelectListItem
+                                {
+                                    Text = a.Name,
+                                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                                }),"", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(items => Model.ScheduleItems[index].SubjectId, db.Subjects.ToArray().Select(a =>
+                                new SelectListItem
+                                {
+                                    Text = a.Name,
+                                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                                }), "", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(items => Model.ScheduleItems[index].LessonTypeId, db.LessonTypes.ToArray().Select(a =>
+                                new SelectListItem
+                                {
+                                    Text = a.Name,
+                                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                                }), "", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(items => Model.ScheduleItems[index].TeacherId, db.Teachers.ToArray().Select(a =>
+                                new SelectListItem
+                                {
+                                    Text = a.Name,
+                                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                                }), "", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(items => Model.ScheduleItems[index].AuditoriumId, db.Auditoriums.ToArray().Select(a =>
+                                new SelectListItem
+                                {
+                                    Text = a.Name,
+                                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                                }), "", new { @class = "form-control" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <input type="submit" class="btn btn-default" value="Добавить" />
+    </div>
+}
+
+
+
+<datalist id="TimeBegin">
+    <option value="1">8:00</option>
+    <option>8:50</option>
+    <option>9:50</option>
+    <option>10:40</option>
+    <option>11:40</option>
+    <option>12:30</option>
+    <option>13:30</option>
+    <option>14:20</option>
+    <option>15:20</option>
+    <option>16:10</option>
+    <option>17:10</option>
+    <option>18:00</option>
+    <option>19:00</option>
+    <option>20:50</option>
+</datalist>
+<datalist id="TimeEnd">
+    <option>9:35</option>
+    <option>10:35</option>
+    <option>11:25</option>
+    <option>12:25</option>
+    <option>13:15</option>
+    <option>14:15</option>
+    <option>15:05</option>
+    <option>16:05</option>
+    <option>16:55</option>
+    <option>17:55</option>
+    <option>18:45</option>
+    <option>19:45</option>
+    <option>20:35</option>
+    <option>21:35</option>
+</datalist>
+<datalist id="Discipline">
+    <option></option>
+    <option></option>
+    <option>Физкультура</option>
+    <option>Информатика</option>
+    <option>История</option>
+    <option>Химия</option>
+</datalist>
+<datalist id="Discipline">
+    <option></option>
+    <option></option>
+    <option>Физкультура</option>
+    <option>Информатика</option>
+    <option>История</option>
+    <option>Химия</option>
+</datalist>
+<datalist id="Type">
+    <option></option>
+    <option>Лекция</option>
+    <option>Лабораторная</option>
+    <option>Пр.з.</option>
+</datalist>
+<datalist id="Teachers">
+    <option></option>
+    <option>Таланова В.А.</option>
+    <option>Макарова А.Д.</option>
+    <option>Левочкина Г.Л.</option>
+</datalist>
+<datalist id="Classes">
+    <option></option>
+    <option>А5</option>
+    <option>А6</option>
+    <option>А9</option>
+    <option>А43</option>
+    <option>А101</option>
+    <option>А102</option>
+    <option>А103</option>
+    <option>А104</option>
+    <option>А105</option>
+    <option>А201</option>
+    <option>А202</option>
+    <option>А204</option>
+    <option>А301</option>
+    <option>А303</option>
+    <option>А304</option>
+    <option>А305</option>
+    <option>А306</option>
+    <option>А307</option>
+    <option>А308</option>
+    <option>Б201</option>
+    <option>Б203</option>
+    <option>Б204</option>
+    <option>Б205</option>
+    <option>В101</option>
+    <option>Г202</option>
+    <option>Г203</option>
+    <option>Г204</option>
+    <option>Г205</option>
+    <option>Г301</option>
+    <option>Г302</option>
+    <option>Г306</option>
+    <option>Г307</option>
+    <option>Г309</option>
+    <option>И201</option>
+    <option>И202</option>
+    <option>И301</option>
+    <option>И302</option>
+    <option>И303</option>
+    <option></option>
+    <option>К201</option>
+    <option>К205</option>
+    <option>К306</option>
+    <option>К307</option>
+    <option>К308</option>
+    <option>К401</option>
+    <option>К408</option>
+    <option>К409</option>
+    <option>К410</option>
+    <option>К505</option>
+    <option>К506</option>
+    <option>К507</option>
+    <option>К508</option>
+    <option>К509</option>
+    <option>К606</option>
+    <option>ДК5</option>
+    <option>ДК7</option>
+    <option>ДК8</option>
+    <option>ДК12</option>
+    <option>ДК13</option>
+    <option>ПК</option>
+</datalist>

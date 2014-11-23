@@ -9,15 +9,22 @@ namespace Scheduler.Models
         {
         }
 
-        public DbSet<Scheduler> Scheduler { get; set; }
-        public DbSet<Place> Places { get; set; }
-        public DbSet<Discipline> Discipline { get; set; }
-        public DbSet<DisciplineForm> DisciplineForm { get; set; }
-        public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<AdminModel> AdminModels { get; set; }
+
+        public DbSet<ScheduleItem> Scheduler { get; set; }
+        public DbSet<LessonTime> LessonTimes { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<LessonType> LessonTypes { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Auditorium> Auditoriums { get; set; }
+
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Course> Courses { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<DayOfWeekItem> DayOfWeekItems { get; set; }
+        public DbSet<WeekNumber> WeekNumbers { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Faculty> Faculties{ get; set; }
     }
 }
