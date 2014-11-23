@@ -215,7 +215,7 @@
     <Compile Include="Models\WeekDay.cs" />
     <Compile Include="Models\WeekNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Home\ExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\DbStaticData\Auditoriums.txt" />
