@@ -31,9 +31,6 @@ namespace Scheduler.Controllers
         {
             base.Initialize(requestContext);
 
-            _db.Auditoriums.Add(new Auditorium {Name = "asfa"});
-            _db.SaveChanges();
-
             int.TryParse(Request["number"] ?? "0", out _number);
             int.TryParse(Request["faculty"] ?? "0", out _facultyId);
             int.TryParse(Request["course"] ?? "0", out _courseId);
@@ -49,6 +46,14 @@ namespace Scheduler.Controllers
 
         public ActionResult Admin()
         {
+            string CookieValue = null;
+
+            if (Request.Cookies[CookieName] != null)
+                CookieValue = Request.Cookies[CookieName].Value;
+
+            if (CookieValue!=Adminmd | CookieValue == null)
+                return RedirectToAction("Index");
+
            var adminModel = _db.AdminModels.Find(_number) ?? new AdminModel();
 
 //            var model = new AdminModel
@@ -98,13 +103,6 @@ namespace Scheduler.Controllers
             _db.Dispose();
             base.Dispose(disposing);
 
-            using (var db = new Db())
-            {
-                db.Roles.Add(new Role() {Id = 1, RoleName = "admin"});
-                db.SaveChanges();
-            }
-            return null;
-
         }
 
         public ActionResult SignUp()
@@ -137,20 +135,21 @@ namespace Scheduler.Controllers
         {
             using (var db = new Db())
             {
-               var u = db.Users.FirstOrDefault(user1 => user1.Email == user.Email & user1.Password == user.Password);
+               var u = db.Users.Include("Role").FirstOrDefault(user1 => user1.Email == user.Email & user1.Password == user.Password);
                 if (u != null)
                 {
                     ViewBag.Error = false;
 
-                    // TODO: md5 generatoin.
-                    Response.Cookies[CookieName].Value = Adminmd;
-                    Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
-
-                    if (u.Role == db.Roles.FirstOrDefault(role1 => role1.RoleName == "admin"))
+                    if (u.Role.RoleName == "admin")
                     {
-                        // TODO: redirect to admin page.
-                        return RedirectToAction("Index");
+                        // TODO: md5 generatoin.
+                        Response.Cookies[CookieName].Value = Adminmd;
+                        Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
+                        return RedirectToAction("Admin");
                     }
+
+                    Response.Cookies[CookieName].Value = "User_login";
+                    Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
                     return RedirectToAction("Index");
                 }
             }
