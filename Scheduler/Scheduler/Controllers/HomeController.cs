@@ -79,5 +79,14 @@ namespace Scheduler.Controllers
             return View(user);
         }
 
+        public ActionResult SignOut()
+        {
+            if (Request.Cookies[CookieName] != null)
+            {
+                Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(-1);
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }
