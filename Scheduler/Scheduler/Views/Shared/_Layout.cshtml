@@ -9,7 +9,7 @@
     <link rel="icon" href="../../favicon.ico">
 
     <title>Расписание занятий</title>
-
+    <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
 @*    <link href="~/Content/bootstrap-theme-superhero.css" rel="stylesheet" />*@
@@ -17,9 +17,11 @@
 </head>
 
 <body>
+
     <div class="container-fluid">
+
         <!-- Static navbar -->
-        <div class="container-fluid">
+        <div class="container">
             <nav class="navbar navbar-default" role="navigation">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -29,13 +31,12 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="/Home">Расписание</a>
+                        <a class="navbar-brand" href="#">Расписание</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav nav-pills pull-right">
                             <li role="presentation" class="active"><a href="/Home/SignIn">Войти</a></li>
                             <li role="presentation"><a href="@Url.Action("SignOut", "Home")">Выйти</a></li>
-                            <li role="presentation"><a href="@Url.Action("Admin", "Home")">Управление</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                            
