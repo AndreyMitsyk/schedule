@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Antlr.Runtime;
@@ -7,6 +8,8 @@ namespace Scheduler.Controllers
 {
     public class HomeController : Controller
     {
+        public const string CookieName = "scheduler_isuct";
+
         public ActionResult Index()
         {
             return View();
@@ -29,5 +32,52 @@ namespace Scheduler.Controllers
             }
             return null;
         }
+
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(User user)
+        {
+            using (var db = new Db())
+            {
+                user.Role = new Role(){Id=1, RoleName = "admin"};
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+            return View();
+        }
+
+        public ActionResult SignIn()
+        {
+            if (Request.Cookies[CookieName] != null)
+                return RedirectToAction("Index");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignIn(User user)
+        {
+            using (var db = new Db())
+            {
+               var u = db.Users.FirstOrDefault(user1 => user1.Email == user.Email & user1.Password == user.Password);
+                if (u != null)
+                {
+                    ViewBag.Error = false;
+
+                    Response.Cookies[CookieName].Value = "Login";
+                    Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
+
+                    return RedirectToAction("Index");
+                }
+            }
+
+            ViewBag.Error = true;
+            return View(user);
+        }
+
     }
 }
