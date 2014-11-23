@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Antlr.Runtime;
+using Microsoft.Data.Edm.Csdl;
 using Scheduler.Models;
 
 namespace Scheduler.Controllers
@@ -13,38 +17,46 @@ namespace Scheduler.Controllers
         public const string CookieName = "scheduler_isuct";
         private const string Adminmd = "21232f297a57a5a743894a0e4a801fc3";
 
-                readonly Db _db = new Db();
-
-        private int _number;
-        private int _facultyId;
-        private int _courseId;
-        private int _groupId;
-        private int _weekNumberId;
-        private int _dayOfWeekItemId;
+        readonly Db _db = new Db();
 
         public HomeController()
         {
             ViewBag.Db = _db;
         }
-
-        protected override void Initialize(RequestContext requestContext)
+        public ActionResult Index(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1)
         {
-            base.Initialize(requestContext);
+            var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
+                 .Include("LessonType").Include("Teacher").Include("Auditorium")
+                 .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
+                                 model.GroupId == groupId && model.WeekNumberId == weekNumberId).ToArray();
 
-            int.TryParse(Request["number"] ?? "0", out _number);
-            int.TryParse(Request["faculty"] ?? "0", out _facultyId);
-            int.TryParse(Request["course"] ?? "0", out _courseId);
-            int.TryParse(Request["group"] ?? "0", out _groupId);
-            int.TryParse(Request["dayOfWeekItem"] ?? "0", out _dayOfWeekItemId);
-            int.TryParse(Request["weekNumber"] ?? "0", out _weekNumberId);
 
+            var search = new SearchModel
+            {
+                FacultyId = facultyId,
+                CourseId = courseId,
+                GroupId = groupId,
+                WeekNumberId = weekNumberId,
+            };
+            return View(new AdminModel { Items = items, Search = search });
         }
-        public ActionResult Index()
+
+
+
+        [HttpPost]
+        public ActionResult FindForUser(AdminModel model)
         {
-            return View();
+            return RedirectToAction("Index", new
+            {
+                model.Search.FacultyId,
+                model.Search.CourseId,
+                model.Search.GroupId,
+                model.Search.WeekNumberId,
+            });
         }
 
-        public ActionResult Admin()
+        public ActionResult Admin(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1,
+            int dayOfWeekItemId = 1)
         {
             string CookieValue = null;
 
@@ -53,49 +65,78 @@ namespace Scheduler.Controllers
 
             if (CookieValue!=Adminmd | CookieValue == null)
                 return RedirectToAction("Index");
+        
+            var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
+                .Include("LessonType").Include("Teacher").Include("Auditorium")
+                .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
+                                model.GroupId == groupId && model.WeekNumberId == weekNumberId &&
+                                model.DayOfWeekItemId == dayOfWeekItemId).ToList();
 
-           var adminModel = _db.AdminModels.Find(_number) ?? new AdminModel();
-
-//            var model = new AdminModel
-//            {
-//                Id = _number,
-//                FacultyId = _facultyId,
-//                CourseId = _courseId,
-//                GroupId = _groupId,
-//                DayOfWeekItemId = _dayOfWeekItemId,
-//                WeekNumberId = _weekNumberId,
-//                ScheduleItems = 
-//            };
-            var schedules = (adminModel.ScheduleItems ?? new ScheduleItem[0]).ToList();
-            schedules.Add(new ScheduleItem());
-            adminModel.ScheduleItems = schedules.ToArray();
-           return View(adminModel);
+            if (!items.Any())
+                items.AddRange(_db.LessonTimes.ToArray().Select(lessonTime => _db.ScheduleItems.Add(new ScheduleItem
+                {
+                    FacultyId = facultyId,
+                    CourseId = courseId,
+                    GroupId = groupId,
+                    WeekNumberId = weekNumberId,
+                    DayOfWeekItemId = dayOfWeekItemId,
+                    LessonTimeId = lessonTime.Id,
+                })));
+            _db.SaveChanges();
+            var search = new SearchModel
+            {
+                FacultyId = facultyId,
+                CourseId = courseId,
+                GroupId = groupId,
+                WeekNumberId = weekNumberId,
+                DayOfWeekItemId = dayOfWeekItemId
+            };
+            return View(new AdminModel { Items = items.ToArray(), Search = search });
         }
 
         [HttpPost]
-        public ActionResult Admin(AdminModel model)
+        public ActionResult Save(AdminModel model)
         {
-            _db.AdminModels.Add(model);
+            foreach (var item in model.Items)
+            {
+                item.FacultyId = model.Search.FacultyId;
+                item.CourseId = model.Search.CourseId;
+                item.GroupId = model.Search.GroupId;
+                item.WeekNumberId = model.Search.WeekNumberId;
+                item.DayOfWeekItemId = model.Search.DayOfWeekItemId;
+
+                _db.Entry(item).State = EntityState.Modified;
+            }
+
             _db.SaveChanges();
-            return RedirectToAction("Admin");
+            return RedirectToAction("Admin", new
+            {
+                model.Search.FacultyId,
+                model.Search.CourseId,
+                model.Search.GroupId,
+                model.Search.WeekNumberId,
+                model.Search.DayOfWeekItemId,
+            });
         }
+
+        [HttpPost]
+        public ActionResult FindForAdmin(AdminModel model)
+        {
+            return RedirectToAction("Admin", new
+            {
+                model.Search.FacultyId,
+                model.Search.CourseId,
+                model.Search.GroupId,
+                model.Search.WeekNumberId,
+                model.Search.DayOfWeekItemId,
+            });
+        }
+
+
 
         //        public Models.Scheduler[] GetSchedules()
         //        {
-        //            int faculty;
-        //            int.TryParse(Request["faculty"] ?? "1", out faculty) ;
-        //            int course;
-        //            int.TryParse(Request["course"] ?? "1", out course) ;
-        //            int group;
-        //            int.TryParse(Request["group"] ?? "1", out group) ;
-        //            int week;
-        //            int.TryParse(Request["week"] ?? "1", out week) ;
-        //
-        //            using (var db = new Db())
-        //            {
-        //                db.Scheduler.Where(s => s.Faculty.Id == faculty);
-        //            }
-        //            return null;
+
         //        }
 
         protected override void Dispose(bool disposing)

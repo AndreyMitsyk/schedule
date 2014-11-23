@@ -9,9 +9,7 @@ namespace Scheduler.Models
         {
         }
 
-        public DbSet<AdminModel> AdminModels { get; set; }
-
-        public DbSet<ScheduleItem> Scheduler { get; set; }
+        public DbSet<ScheduleItem> ScheduleItems { get; set; }
         public DbSet<LessonTime> LessonTimes { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<LessonType> LessonTypes { get; set; }
