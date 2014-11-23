@@ -11,6 +11,7 @@ namespace Scheduler.Controllers
     {
 
         public const string CookieName = "scheduler_isuct";
+        private const string Adminmd = "21232f297a57a5a743894a0e4a801fc3";
 
                 readonly Db _db = new Db();
 
@@ -96,6 +97,14 @@ namespace Scheduler.Controllers
         {
             _db.Dispose();
             base.Dispose(disposing);
+
+            using (var db = new Db())
+            {
+                db.Roles.Add(new Role() {Id = 1, RoleName = "admin"});
+                db.SaveChanges();
+            }
+            return null;
+
         }
 
         public ActionResult SignUp()
@@ -108,7 +117,7 @@ namespace Scheduler.Controllers
         {
             using (var db = new Db())
             {
-                user.Role = new Role(){Id=1, RoleName = "admin"};
+                user.Role = new Role(){Id=2, RoleName = "user"};
                 db.Users.Add(user);
                 db.SaveChanges();
             }
@@ -133,9 +142,15 @@ namespace Scheduler.Controllers
                 {
                     ViewBag.Error = false;
 
-                    Response.Cookies[CookieName].Value = "Login";
+                    // TODO: md5 generatoin.
+                    Response.Cookies[CookieName].Value = Adminmd;
                     Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
 
+                    if (u.Role == db.Roles.FirstOrDefault(role1 => role1.RoleName == "admin"))
+                    {
+                        // TODO: redirect to admin page.
+                        return RedirectToAction("Index");
+                    }
                     return RedirectToAction("Index");
                 }
             }
