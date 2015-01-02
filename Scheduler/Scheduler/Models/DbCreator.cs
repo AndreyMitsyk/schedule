@@ -5,18 +5,30 @@ using System.Web;
 
 namespace Scheduler.Models
 {
+    /// <summary>
+    /// Создание БД.
+    /// </summary>
     public static class DbCreator
     {
+        /// <summary>
+        /// Файлов с данными.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>Данные файла.</returns>
         public static string[] GetFileData(string name)
         {
             var path = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), "DbStaticData", name + ".txt");
             return !File.Exists(path) ? new string[0] : File.ReadAllLines(path);
         }
 
+        /// <summary>
+        /// Действия пр запуске.
+        /// </summary>
         public static void Run()
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<Db>());
 
+            // Внесение данных в БД.
             using (var db = new Db())
             {
                 if (!db.Auditoriums.Any())
@@ -84,16 +96,37 @@ namespace Scheduler.Models
                     }
                 }
 
-
-                /*samples creations*/
                 if (!db.LessonTimes.Any())
                 {
                     foreach (var s in GetFileData("LessonTimes"))
                     {
                         db.LessonTimes.Add(new LessonTime { Name = s });
-            //        }
                     }
                 }
+
+                if (!db.Roles.Any())
+                {
+                    foreach (var s in GetFileData("Roles"))
+                    {
+                        db.Roles.Add(new Role { RoleName = s });
+                    }
+                }
+
+                // TODO: убрать позже.
+                if (!db.Users.Any())
+                {
+                    User admin = new User
+                    {
+                        Email = "mitzyk@mail.ru",
+                        FirstName = "Andrey",
+                        LastName = "Mitsyk",
+                        Password = "12345",
+                        Role = db.Roles.FirstOrDefault(role1 => role1.RoleName == "admin")
+                    };
+
+                    db.Users.Add(admin);
+                }
+
                 db.SaveChanges();
             }
         }
