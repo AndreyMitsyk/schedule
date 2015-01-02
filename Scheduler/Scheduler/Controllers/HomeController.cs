@@ -1,4 +1,4 @@
-namespace Scheduler.Controllers
+п»їnamespace Scheduler.Controllers
 {
     using System;
     using System.Data.Entity;
@@ -7,26 +7,26 @@ namespace Scheduler.Controllers
     using Models;
 
     /// <summary>
-    /// Тело Home Controller.
+    /// РўРµР»Рѕ Home Controller.
     /// </summary>
     public class HomeController : Controller
     {
         /// <summary>
-        /// Имя cookie авторизации.
+        /// РРјСЏ cookie Р°РІС‚РѕСЂРёР·Р°С†РёРё.
         /// </summary>
         public const string CookieName = "scheduler_isuct";
         /// <summary>
-        /// Значение cookie для админа. TODO: будет заменено генерацией MD5.
+        /// Р—РЅР°С‡РµРЅРёРµ cookie РґР»СЏ Р°РґРјРёРЅР°. TODO: Р±СѓРґРµС‚ Р·Р°РјРµРЅРµРЅРѕ РіРµРЅРµСЂР°С†РёРµР№ MD5.
         /// </summary>
         private const string Adminmd = "21232f297a57a5a743894a0e4a801fc3";
 
         /// <summary>
-        /// БД.
+        /// Р‘Р”.
         /// </summary>
         readonly Db _db = new Db();
 
         /// <summary>
-        /// Объявление бд.
+        /// РћР±СЉСЏРІР»РµРЅРёРµ Р±Рґ.
         /// </summary>
         public HomeController()
         {
@@ -34,19 +34,19 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Главная страница.
+        /// Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р°.
         /// </summary>
-        /// <param name="facultyId">ID факультета.</param>
-        /// <param name="courseId">ID курса</param>
-        /// <param name="groupId">ID группы</param>
-        /// <param name="weekNumberId">ID номера недели</param>
-        /// <returns>Расписание для группы.</returns>
+        /// <param name="facultyId">ID С„Р°РєСѓР»СЊС‚РµС‚Р°.</param>
+        /// <param name="courseId">ID РєСѓСЂСЃР°</param>
+        /// <param name="groupId">ID РіСЂСѓРїРїС‹</param>
+        /// <param name="weekNumberId">ID РЅРѕРјРµСЂР° РЅРµРґРµР»Рё</param>
+        /// <returns>Р Р°СЃРїРёСЃР°РЅРёРµ РґР»СЏ РіСЂСѓРїРїС‹.</returns>
         public ActionResult Index(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1)
         {
-            // Проверка cookies.
+            // РџСЂРѕРІРµСЂРєР° cookies.
             CheckCookies();
 
-            // Загрузка данных расписания из БД.
+            // Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С… СЂР°СЃРїРёСЃР°РЅРёСЏ РёР· Р‘Р”.
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
                  .Include("LessonType").Include("Teacher").Include("Auditorium")
                  .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
@@ -63,14 +63,14 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Загрузка расписания.
+        /// Р—Р°РіСЂСѓР·РєР° СЂР°СЃРїРёСЃР°РЅРёСЏ.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns>Расписание для группы.</returns>
+        /// <returns>Р Р°СЃРїРёСЃР°РЅРёРµ РґР»СЏ РіСЂСѓРїРїС‹.</returns>
         [HttpPost]
         public ActionResult FindForUser(AdminModel model)
         {
-            // TODO: запоминать выбранное в последний раз расписание
+            // TODO: Р·Р°РїРѕРјРёРЅР°С‚СЊ РІС‹Р±СЂР°РЅРЅРѕРµ РІ РїРѕСЃР»РµРґРЅРёР№ СЂР°Р· СЂР°СЃРїРёСЃР°РЅРёРµ
             return RedirectToAction("Index", new
             {
                 model.Search.FacultyId,
@@ -81,13 +81,13 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Страница управления расписанием.
+        /// РЎС‚СЂР°РЅРёС†Р° СѓРїСЂР°РІР»РµРЅРёСЏ СЂР°СЃРїРёСЃР°РЅРёРµРј.
         /// </summary>
-        /// <param name="facultyId">ID факультета</param>
-        /// <param name="courseId">ID курса</param>
-        /// <param name="groupId">ID группы</param>
-        /// <param name="weekNumberId">ID номера недели</param>
-        /// <param name="dayOfWeekItemId">ID дня недели</param>
+        /// <param name="facultyId">ID С„Р°РєСѓР»СЊС‚РµС‚Р°</param>
+        /// <param name="courseId">ID РєСѓСЂСЃР°</param>
+        /// <param name="groupId">ID РіСЂСѓРїРїС‹</param>
+        /// <param name="weekNumberId">ID РЅРѕРјРµСЂР° РЅРµРґРµР»Рё</param>
+        /// <param name="dayOfWeekItemId">ID РґРЅСЏ РЅРµРґРµР»Рё</param>
         /// <returns></returns>
         public ActionResult Admin(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1,
             int dayOfWeekItemId = 1)
@@ -131,7 +131,7 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Сохранение данных расписания.
+        /// РЎРѕС…СЂР°РЅРµРЅРёРµ РґР°РЅРЅС‹С… СЂР°СЃРїРёСЃР°РЅРёСЏ.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -161,10 +161,10 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Загрузка расписания на странице админа.
+        /// Р—Р°РіСЂСѓР·РєР° СЂР°СЃРїРёСЃР°РЅРёСЏ РЅР° СЃС‚СЂР°РЅРёС†Рµ Р°РґРјРёРЅР°.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns>Расписание для группы</returns>
+        /// <returns>Р Р°СЃРїРёСЃР°РЅРёРµ РґР»СЏ РіСЂСѓРїРїС‹</returns>
         [HttpPost]
         public ActionResult FindForAdmin(AdminModel model)
         {
@@ -185,9 +185,9 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Регистрация.
+        /// Р РµРіРёСЃС‚СЂР°С†РёСЏ.
         /// </summary>
-        /// <returns>Форма регистрации.</returns>
+        /// <returns>Р¤РѕСЂРјР° СЂРµРіРёСЃС‚СЂР°С†РёРё.</returns>
         public ActionResult SignUp()
         {
             if (Request.Cookies[CookieName] != null)
@@ -197,9 +197,9 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Регистрация.
+        /// Р РµРіРёСЃС‚СЂР°С†РёСЏ.
         /// </summary>
-        /// <param name="user">Данные пользователя.</param>
+        /// <param name="user">Р”Р°РЅРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult SignUp(User user)
@@ -219,9 +219,9 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Логин.
+        /// Р›РѕРіРёРЅ.
         /// </summary>
-        /// <returns>Форма логина.</returns>
+        /// <returns>Р¤РѕСЂРјР° Р»РѕРіРёРЅР°.</returns>
         public ActionResult SignIn()
         {
             if (Request.Cookies[CookieName] != null)
@@ -231,9 +231,9 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Логин.
+        /// Р›РѕРіРёРЅ.
         /// </summary>
-        /// <param name="user">Данные для авторизации.</param>
+        /// <param name="user">Р”Р°РЅРЅС‹Рµ РґР»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё.</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult SignIn(User user)
@@ -264,9 +264,9 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Выход из системы.
+        /// Р’С‹С…РѕРґ РёР· СЃРёСЃС‚РµРјС‹.
         /// </summary>
-        /// <returns>Главная страница.</returns>
+        /// <returns>Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р°.</returns>
         public ActionResult SignOut()
         {
             if (Request.Cookies[CookieName] != null)
@@ -277,7 +277,7 @@ namespace Scheduler.Controllers
         }
 
         /// <summary>
-        /// Проверка Cookies и активация/деактивация элементов верхней панели.
+        /// РџСЂРѕРІРµСЂРєР° Cookies Рё Р°РєС‚РёРІР°С†РёСЏ/РґРµР°РєС‚РёРІР°С†РёСЏ СЌР»РµРјРµРЅС‚РѕРІ РІРµСЂС…РЅРµР№ РїР°РЅРµР»Рё.
         /// </summary>
         private void CheckCookies()
         {
