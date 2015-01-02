@@ -23,7 +23,7 @@
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-@*    <link href="~/Content/bootstrap-theme-superhero.css" rel="stylesheet" />*@
+    @*<link href="~/Content/bootstrap-theme-superhero.css" rel="stylesheet" />*@
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
@@ -51,9 +51,21 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav nav-pills pull-right" style="padding-top: 5px;">
-                            <li role="presentation" class="active"><a href="/Home/SignIn">Войти</a></li>
-                            <li role="presentation"><a href="@Url.Action("SignOut", "Home")">Выйти</a></li>
-                            <li role="presentation"><a href="@Url.Action("Admin", "Home")">Управление</a></li>
+                            @if (ViewBag.ShowSignIn ?? true)
+                            {
+                                <li role="presentation" class="active"><a href="/Home/SignIn">Войти</a></li>
+                            }
+                            
+                            @if (ViewBag.ShowAdmin ?? false)
+                            {
+                                <li role="presentation"><a href="@Url.Action("Admin", "Home")">Управление</a></li>
+                            }
+
+                            @if (ViewBag.ShowSignOut ?? false)
+                            {
+                                <li role="presentation" class="active"><a href="@Url.Action("SignOut", "Home")">Выйти</a></li>
+                            } 
+                            
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                            

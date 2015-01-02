@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <meta http-equiv="Content-Type" content="text/html; charset=charset=UTF-8">
     <link rel="stylesheet" href="/content/bootstrap.min.css">
     <style type="text/css">
         body {
-            background-color: #525252;
+            background-color: #fff;
         }
 
         .centered-form {
@@ -15,7 +15,7 @@
 
             .centered-form .panel {
                 background: rgba(255, 255, 255, 0.8);
-                box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+                box-shadow: rgba(0, 0, 0, 0.3) 10px 10px 25px;
             }
     </style>
 </head>
@@ -33,34 +33,57 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <input type="text" name="FirstName" id="first_name" class="form-control input-sm" placeholder="Имя">
+                                        <input type="text" name="FirstName" id="first_name" class="form-control input-sm" onkeypress=" CheckValues()" onfocus=" CheckValues()" onkeyup=" CheckValues()" placeholder="Имя">
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <input type="text" name="LastName" id="last_name" class="form-control input-sm" placeholder="Фамилия">
+                                        <input type="text" name="LastName" id="last_name" class="form-control input-sm" onkeypress=" CheckValues()" onfocus=" CheckValues()" onkeyup=" CheckValues()" placeholder="Фамилия">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="email" name="Email" id="email" class="form-control input-sm" placeholder="Email адрес">
+                                <input type="email" name="Email" id="email" class="form-control input-sm" onkeypress=" CheckValues()" onfocus=" CheckValues()" onkeyup=" CheckValues()" placeholder="Email адрес">
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <input type="password" name="Password" id="password" class="form-control input-sm" placeholder="Пароль">
+                                        <input type="password" name="Password" id="password" class="form-control input-sm" onkeypress=" CheckValues()" onfocus=" CheckValues()" onkeyup=" CheckValues()" placeholder="Пароль">
                                     </div>
                                 </div>
-                                @*<div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <input type="password" name="Password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Повторите пароль">
+                                        <input type="password" name="PasswordConfirmation" onkeypress="CorrectPass('password_confirmation')" onfocus="CorrectPass('password_confirmation')"
+                                               onkeyup="CorrectPass('password_confirmation')" id="password_confirmation" class="form-control input-sm" placeholder="Повторите пароль">
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
+                            
+                            <script>
+                                function CorrectPass(item) {
+                                    var passValue = document.getElementById('password').value;
+                                    if (document.getElementById(item).value != passValue) {
+                                        document.getElementById('incorrect').innerHTML = 'Пароли должны совпадать!';
+                                    } else {
+                                        document.getElementById('incorrect').innerHTML = '';
+                                    }
+                                    CheckValues();
+                                }
 
-                            <input type="submit" value="Регистрация" class="btn btn-info btn-block">
+                                function CheckValues() {
+                                    if (document.getElementById('first_name').value != '' && document.getElementById('last_name').value != '' && document.getElementById('email').value != '' && document.getElementById('password').value != '' && document.getElementById('password_confirmation').value != '' && document.getElementById('incorrect').innerHTML == '') {
+                                        document.getElementById('submit').disabled = false;
+                                    } else {
+                                        document.getElementById('submit').disabled = true;
+                                    }
+                                }
+                            </script>
+
+                            <strong class="text-center" id="incorrect" style="padding-left: 65px; color: red;"></strong>
+                            
+                            <input type="submit" value="Регистрация" id="submit" class="btn btn-info btn-block" disabled>
 
                         </form>
                     </div>

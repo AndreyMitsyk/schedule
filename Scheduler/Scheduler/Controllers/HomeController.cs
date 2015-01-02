@@ -1,35 +1,56 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Antlr.Runtime;
-using Microsoft.Data.Edm.Csdl;
-using Scheduler.Models;
-
 namespace Scheduler.Controllers
 {
+    using System;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Models;
+
+    /// <summary>
+    /// Тело Home Controller.
+    /// </summary>
     public class HomeController : Controller
     {
-
+        /// <summary>
+        /// Имя cookie авторизации.
+        /// </summary>
         public const string CookieName = "scheduler_isuct";
+        /// <summary>
+        /// Значение cookie для админа. TODO: будет заменено генерацией MD5.
+        /// </summary>
         private const string Adminmd = "21232f297a57a5a743894a0e4a801fc3";
 
+        /// <summary>
+        /// БД.
+        /// </summary>
         readonly Db _db = new Db();
 
+        /// <summary>
+        /// Объявление бд.
+        /// </summary>
         public HomeController()
         {
             ViewBag.Db = _db;
         }
+
+        /// <summary>
+        /// Главная страница.
+        /// </summary>
+        /// <param name="facultyId">ID факультета.</param>
+        /// <param name="courseId">ID курса</param>
+        /// <param name="groupId">ID группы</param>
+        /// <param name="weekNumberId">ID номера недели</param>
+        /// <returns>Расписание для группы.</returns>
         public ActionResult Index(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1)
         {
+            // Проверка cookies.
+            CheckCookies();
+
+            // Загрузка данных расписания из БД.
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
                  .Include("LessonType").Include("Teacher").Include("Auditorium")
                  .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
                                  model.GroupId == groupId && model.WeekNumberId == weekNumberId).ToArray();
-
 
             var search = new SearchModel
             {
@@ -41,11 +62,15 @@ namespace Scheduler.Controllers
             return View(new AdminModel { Items = items, Search = search });
         }
 
-
-
+        /// <summary>
+        /// Загрузка расписания.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Расписание для группы.</returns>
         [HttpPost]
         public ActionResult FindForUser(AdminModel model)
         {
+            // TODO: запоминать выбранное в последний раз расписание
             return RedirectToAction("Index", new
             {
                 model.Search.FacultyId,
@@ -55,15 +80,26 @@ namespace Scheduler.Controllers
             });
         }
 
+        /// <summary>
+        /// Страница управления расписанием.
+        /// </summary>
+        /// <param name="facultyId">ID факультета</param>
+        /// <param name="courseId">ID курса</param>
+        /// <param name="groupId">ID группы</param>
+        /// <param name="weekNumberId">ID номера недели</param>
+        /// <param name="dayOfWeekItemId">ID дня недели</param>
+        /// <returns></returns>
         public ActionResult Admin(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1,
             int dayOfWeekItemId = 1)
         {
-            string CookieValue = null;
+            CheckCookies();
+
+            string cookieValue = null;
 
             if (Request.Cookies[CookieName] != null)
-                CookieValue = Request.Cookies[CookieName].Value;
+                cookieValue = Request.Cookies[CookieName].Value;
 
-            if (CookieValue!=Adminmd | CookieValue == null)
+            if (cookieValue!=Adminmd | cookieValue == null)
                 return RedirectToAction("Index");
         
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
@@ -94,6 +130,11 @@ namespace Scheduler.Controllers
             return View(new AdminModel { Items = items.ToArray(), Search = search });
         }
 
+        /// <summary>
+        /// Сохранение данных расписания.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Save(AdminModel model)
         {
@@ -119,6 +160,11 @@ namespace Scheduler.Controllers
             });
         }
 
+        /// <summary>
+        /// Загрузка расписания на странице админа.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Расписание для группы</returns>
         [HttpPost]
         public ActionResult FindForAdmin(AdminModel model)
         {
@@ -132,37 +178,50 @@ namespace Scheduler.Controllers
             });
         }
 
-
-
-        //        public Models.Scheduler[] GetSchedules()
-        //        {
-
-        //        }
-
         protected override void Dispose(bool disposing)
         {
             _db.Dispose();
             base.Dispose(disposing);
-
         }
 
+        /// <summary>
+        /// Регистрация.
+        /// </summary>
+        /// <returns>Форма регистрации.</returns>
         public ActionResult SignUp()
         {
+            if (Request.Cookies[CookieName] != null)
+                return RedirectToAction("Index");
+
             return View();
         }
 
+        /// <summary>
+        /// Регистрация.
+        /// </summary>
+        /// <param name="user">Данные пользователя.</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SignUp(User user)
         {
             using (var db = new Db())
             {
-                user.Role = new Role(){Id=2, RoleName = "user"};
+                user.Role = db.Roles.FirstOrDefault(role1 => role1.RoleName == "user");
+                var firstOrDefault = db.Users.FirstOrDefault(user1 => user1.Email == user.Email);
+                if (firstOrDefault != null)
+                {
+                    return View();
+                }
                 db.Users.Add(user);
                 db.SaveChanges();
             }
-            return View();
+            return RedirectToAction("SignIn");
         }
 
+        /// <summary>
+        /// Логин.
+        /// </summary>
+        /// <returns>Форма логина.</returns>
         public ActionResult SignIn()
         {
             if (Request.Cookies[CookieName] != null)
@@ -171,6 +230,11 @@ namespace Scheduler.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Логин.
+        /// </summary>
+        /// <param name="user">Данные для авторизации.</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SignIn(User user)
         {
@@ -199,6 +263,10 @@ namespace Scheduler.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Выход из системы.
+        /// </summary>
+        /// <returns>Главная страница.</returns>
         public ActionResult SignOut()
         {
             if (Request.Cookies[CookieName] != null)
@@ -208,5 +276,27 @@ namespace Scheduler.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Проверка Cookies и активация/деактивация элементов верхней панели.
+        /// </summary>
+        private void CheckCookies()
+        {
+            if (Request.Cookies[CookieName] != null)
+            {
+                ViewBag.ShowSignIn = false;
+                ViewBag.ShowSignOut = true;
+
+                if (Request.Cookies[CookieName].Value == Adminmd)
+                {
+                    ViewBag.ShowAdmin = true;
+                }
+            }
+            else
+            {
+                ViewBag.ShowSignIn = true;
+                ViewBag.ShowAdmin = false;
+                ViewBag.ShowSignOut = false;
+            }
+        }
     }
 }
