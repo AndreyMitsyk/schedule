@@ -1,13 +1,15 @@
 ﻿@using System.Globalization
 @using Scheduler
 @using Scheduler.Models
-@model Scheduler.Models.AdminModel
+@model AdminModel
 @{
     ViewBag.Title = "Расписание";
     var db = (Db)ViewBag.Db;
 }
 
-<div class="row find-controls">
+<hr />
+<p></p>
+<div class="row find-controls animated zoomInUp">
     <form class="form-inline" role="form" action="/Home/FindForUser/" method="POST">
         <div class="form-group">
             <label>Факультет</label>
@@ -37,51 +39,45 @@
                     }), new { @class = "form-control" })
         </div>
         <div class="form-group">
-            <label>День недели</label>
-            @Html.DropDownListFor(model => model.Search.DayOfWeekItemId, db.DayOfWeekItems.ToArray().Select(a =>
-                    new SelectListItem
-                    {
-                        Text = a.Name,
-                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
-                    }), new { @class = "form-control" })
-        </div>
-        <div class="form-group">
             <label>Неделя</label>
             @Html.DropDownListFor(model => model.Search.WeekNumberId, db.WeekNumbers.ToArray().Select(a =>
-                    new SelectListItem
-                    {
-                        Text = a.Name,
-                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
-                    }), new { @class = "form-control" })
+                new SelectListItem
+                {
+                    Text = a.Name,
+                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
+                }), new { @class = "form-control" })
         </div>
-    </form>
+        <div class="form-group">
+            <button type="button" class="btn btn-default navbar-btn" onclick="loadInfo()">Показать</button>
+        </div>
+</form>
     <script>
-        $('select').change(function () {
+        function loadInfo() {
             $.blockUI({ message: '<h4><img src="/images/busy.gif" /> Подождите...</h4>' });
             $('form')[0].submit();
-        });
+        }
     </script>
 </div>
-<hr />
+<hr/>
 <p></p>
 <div class="row animated fadeIn">
     <table class="table table-hover table-condensed table-bordered text-center">
         <thead>
             <tr>
                 <th></th>
-                <th>Понедельник</th>
-                <th>Вторник</th>
-                <th>Среда</th>
-                <th>Четверг</th>
-                <th>Пятница</th>
-                <th>Суббота</th>
+                <th class="animated fadeInDown">Понедельник</th>
+                <th class="animated fadeInDown">Вторник</th>
+                <th class="animated fadeInDown">Среда</th>
+                <th class="animated fadeInDown">Четверг</th>
+                <th class="animated fadeInDown">Пятница</th>
+                <th class="animated fadeInDown">Суббота</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var time in db.LessonTimes.ToArray())
             {
                 <tr>
-                    <td>@time.Name</td>
+                    <td class="animated zoomIn">@time.Name</td>
 
                     @foreach (var item in db.DayOfWeekItems.ToArray())
                     {
@@ -98,7 +94,7 @@
                                 <p></p>
                                 @if (q.Auditorium != null)
                                 {
-                                    <label class="label label-warning animated bounce">
+                                    <label class="label label-primary animated bounce" style="font-size:88%">
                                         @q.Auditorium.Name
                                     </label>
                                 }
