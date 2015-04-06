@@ -1,10 +1,11 @@
-﻿using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Web;
-
-namespace Scheduler.Models
+﻿namespace Scheduler.Models
 {
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
+
     /// <summary>
     /// Создание БД.
     /// </summary>
@@ -15,7 +16,7 @@ namespace Scheduler.Models
         /// </summary>
         /// <param name="name"></param>
         /// <returns>Данные файла.</returns>
-        public static string[] GetFileData(string name)
+        private static IEnumerable<string> GetFileData(string name)
         {
             var path = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), "DbStaticData", name + ".txt");
             return !File.Exists(path) ? new string[0] : File.ReadAllLines(path);
@@ -35,35 +36,35 @@ namespace Scheduler.Models
                 {
                     foreach (var s in GetFileData("Auditoriums"))
                     {
-                        db.Auditoriums.Add(new Auditorium { Name = s });
+                        db.Auditoriums.Add(new Auditorium {Name = s});
                     }
                 }
                 if (!db.Courses.Any())
                 {
                     foreach (var s in GetFileData("Courses"))
                     {
-                        db.Courses.Add(new Course { Name = s });
+                        db.Courses.Add(new Course {Name = s});
                     }
                 }
                 if (!db.DayOfWeekItems.Any())
                 {
                     foreach (var s in GetFileData("DayOfWeekItems"))
                     {
-                        db.DayOfWeekItems.Add(new DayOfWeekItem { Name = s });
+                        db.DayOfWeekItems.Add(new DayOfWeekItem {Name = s});
                     }
                 }
                 if (!db.Faculties.Any())
                 {
                     foreach (var s in GetFileData("Faculties"))
                     {
-                        db.Faculties.Add(new Faculty { Name = s });
+                        db.Faculties.Add(new Faculty {Name = s});
                     }
                 }
                 if (!db.Groups.Any())
                 {
                     foreach (var s in GetFileData("Groups"))
                     {
-                        db.Groups.Add(new Group { Name = s });
+                        db.Groups.Add(new Group {Name = s});
                     }
                 }
 
@@ -71,28 +72,28 @@ namespace Scheduler.Models
                 {
                     foreach (var s in GetFileData("LessonTypes"))
                     {
-                        db.LessonTypes.Add(new LessonType { Name = s });
+                        db.LessonTypes.Add(new LessonType {Name = s});
                     }
                 }
                 if (!db.Subjects.Any())
                 {
                     foreach (var s in GetFileData("Subjects"))
                     {
-                        db.Subjects.Add(new Subject { Name = s });
+                        db.Subjects.Add(new Subject {Name = s});
                     }
                 }
                 if (!db.Teachers.Any())
                 {
                     foreach (var s in GetFileData("Teachers"))
                     {
-                        db.Teachers.Add(new Teacher { Name = s });
+                        db.Teachers.Add(new Teacher {Name = s});
                     }
                 }
                 if (!db.WeekNumbers.Any())
                 {
                     foreach (var s in GetFileData("WeekNumbers"))
                     {
-                        db.WeekNumbers.Add(new WeekNumber { Name = s });
+                        db.WeekNumbers.Add(new WeekNumber {Name = s});
                     }
                 }
 
@@ -100,7 +101,7 @@ namespace Scheduler.Models
                 {
                     foreach (var s in GetFileData("LessonTimes"))
                     {
-                        db.LessonTimes.Add(new LessonTime { Name = s });
+                        db.LessonTimes.Add(new LessonTime {Name = s});
                     }
                 }
 
@@ -108,10 +109,13 @@ namespace Scheduler.Models
                 {
                     foreach (var s in GetFileData("Roles"))
                     {
-                        db.Roles.Add(new Role { RoleName = s });
+                        db.Roles.Add(new Role {RoleName = s});
                     }
                 }
 
+                db.SaveChanges();
+
+                //-------------------------------------------------------------
                 // TODO: убрать позже.
                 if (!db.Users.Any())
                 {
@@ -121,13 +125,14 @@ namespace Scheduler.Models
                         FirstName = "Andrey",
                         LastName = "Mitsyk",
                         Password = "12345",
-                        Role = db.Roles.FirstOrDefault(role1 => role1.RoleName == "admin")
+                        Role = db.Roles.Find(1)
                     };
 
                     db.Users.Add(admin);
                 }
 
                 db.SaveChanges();
+                //-------------------------------------------------------------
             }
         }
     }
