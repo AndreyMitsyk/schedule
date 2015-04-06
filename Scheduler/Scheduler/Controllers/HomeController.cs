@@ -3,6 +3,7 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
     using Models;
 
@@ -14,7 +15,7 @@
         /// <summary>
         /// Имя cookie авторизации.
         /// </summary>
-        public const string CookieName = "scheduler_isuct";
+        private const string CookieName = "scheduler_isuct";
         /// <summary>
         /// Значение cookie для админа. TODO: будет заменено генерацией MD5.
         /// </summary>
@@ -244,17 +245,23 @@
                 if (u != null)
                 {
                     ViewBag.Error = false;
-
+                    HttpCookie httpCookie = Response.Cookies[CookieName];
                     if (u.Role.RoleName == "admin")
                     {
                         // TODO: md5 generatoin.
-                        Response.Cookies[CookieName].Value = Adminmd;
-                        Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
+                        if (httpCookie != null)
+                        {
+                            httpCookie.Value = Adminmd;
+                            httpCookie.Expires = DateTime.Now.AddDays(7);
+                        }
                         return RedirectToAction("Admin");
                     }
 
-                    Response.Cookies[CookieName].Value = "User_login";
-                    Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(7);
+                    if (httpCookie != null)
+                    {
+                        httpCookie.Value = "User_login";
+                        httpCookie.Expires = DateTime.Now.AddDays(7);
+                    }
                     return RedirectToAction("Index");
                 }
             }
@@ -269,10 +276,10 @@
         /// <returns>Главная страница.</returns>
         public ActionResult SignOut()
         {
-            if (Request.Cookies[CookieName] != null)
-            {
-                Response.Cookies[CookieName].Expires = DateTime.Now.AddDays(-1);
-            }
+            HttpCookie httpCookie = Response.Cookies[CookieName];
+            if (httpCookie != null)
+                httpCookie.Expires = DateTime.Now.AddDays(-1);
+
             return RedirectToAction("Index");
         }
 
