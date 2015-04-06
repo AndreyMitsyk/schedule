@@ -1,8 +1,6 @@
 ﻿namespace Scheduler.Models
 {
-    public class Subject
+    public class Subject:IdNameBase
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

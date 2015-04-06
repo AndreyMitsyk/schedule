@@ -1,8 +1,6 @@
 ﻿namespace Scheduler.Models
 {
-    public class Faculty
+    public class Faculty : IdNameBase
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

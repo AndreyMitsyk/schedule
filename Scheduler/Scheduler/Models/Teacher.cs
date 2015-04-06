@@ -1,8 +1,6 @@
 ﻿namespace Scheduler.Models
 {
-    public class Teacher
+    public class Teacher:IdNameBase
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace Scheduler.Models
 {
-    public class LessonTime:IdNameBase
-    {
-    }
+    using System;
 
-    public class LessonTypesLessonTime : IdNameBase
+    public class LessonTime
     {
-
+        public int Id { get; set; }
+        public DateTime TimeOfBegin { get; set; }
+        public DateTime TimeOfEnd { get; set; }
     }
 }
