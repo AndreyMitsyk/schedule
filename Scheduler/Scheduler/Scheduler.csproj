@@ -200,8 +200,7 @@
     </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="Models\AdminModel.cs" />
-    <Compile Include="Models\Auditorium.cs" />
-    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Auditoriums.cs" />
     <Compile Include="Models\DayOfWeekItem.cs" />
     <Compile Include="Models\DbCreator.cs" />
     <Compile Include="Models\IdNameBase.cs" />
@@ -209,15 +208,17 @@
     <Compile Include="Models\Faculties.cs" />
     <Compile Include="Models\LessonType.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\Semester.cs" />
+    <Compile Include="Models\Session.cs" />
     <Compile Include="Models\Subject.cs" />
-    <Compile Include="Models\LessonTime.cs" />
+    <Compile Include="Models\LessonTimes.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\TeachSubj.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Teacher.cs" />
-    <Compile Include="Models\WeekDay.cs" />
-    <Compile Include="Models\WeekNumber.cs" />
+    <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtensionMethods.cs" />
   </ItemGroup>
