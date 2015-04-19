@@ -2,7 +2,7 @@
 
 namespace Scheduler.Models
 {
-    class Session
+    public class Session
     {
         public int Id { get; set; }
         public DateTime StartSession { get; set; }

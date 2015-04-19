@@ -39,13 +39,7 @@
                         db.Auditoriums.Add(new Auditorium {Name = s});
                     }
                 }
-                if (!db.Courses.Any())
-                {
-                    foreach (var s in GetFileData("Courses"))
-                    {
-                        db.Courses.Add(new Course {Name = s});
-                    }
-                }
+
                 if (!db.DayOfWeekItems.Any())
                 {
                     foreach (var s in GetFileData("DayOfWeekItems"))
@@ -89,22 +83,6 @@
                         db.Teachers.Add(new Teacher {Name = s});
                     }
                 }
-                if (!db.WeekNumbers.Any())
-                {
-                    foreach (var s in GetFileData("WeekNumbers"))
-                    {
-                        db.WeekNumbers.Add(new WeekNumber {Name = s});
-                    }
-                }
-
-                if (!db.LessonTimes.Any())
-                {
-                    foreach (var s in GetFileData("LessonTimes"))
-                    {
-                        db.LessonTimes.Add(new LessonTime {Name = s});
-                    }
-                }
-
                 if (!db.Roles.Any())
                 {
                     foreach (var s in GetFileData("Roles"))
@@ -124,12 +102,19 @@
                         Email = "mitzyk@mail.ru",
                         FirstName = "Andrey",
                         LastName = "Mitsyk",
-                        Password = "12345",
-                        Role = db.Roles.Find(1)
+                        Password = "12345"
+                        
                     };
 
                     db.Users.Add(admin);
+
+                    db.SaveChanges();
+
+                    UserRole adminRole = new UserRole {Role = db.Roles.Find(1), User = db.Users.Find(1)};
+                    db.UserRoles.Add(adminRole);
                 }
+
+
 
                 db.SaveChanges();
                 //-------------------------------------------------------------

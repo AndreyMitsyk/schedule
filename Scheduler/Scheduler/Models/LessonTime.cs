@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class LessonTimes
+    public class LessonTime
     {
         public int Id { get; set; }
         public DateTime TimeOfBegin { get; set; }
