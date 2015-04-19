@@ -214,11 +214,9 @@
     <Compile Include="Models\LessonTime.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\TeachSubj.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Teacher.cs" />
-    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtensionMethods.cs" />
   </ItemGroup>

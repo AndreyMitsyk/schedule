@@ -1,5 +1,6 @@
 ﻿namespace Scheduler.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.IO;
@@ -36,7 +37,7 @@
                 {
                     foreach (var s in GetFileData("Auditoriums"))
                     {
-                        db.Auditoriums.Add(new Auditorium {Name = s});
+                        db.Auditoriums.Add(new Auditorium {Name = s, Type = false});
                     }
                 }
 
@@ -102,16 +103,14 @@
                         Email = "mitzyk@mail.ru",
                         FirstName = "Andrey",
                         LastName = "Mitsyk",
-                        Password = "12345"
-                        
+                        Password = "12345",
+                        LastEnterTry = DateTime.Now,
+                        NumOfIncorrectEntery = 0
+                       
                     };
 
                     db.Users.Add(admin);
 
-                    db.SaveChanges();
-
-                    UserRole adminRole = new UserRole {Role = db.Roles.Find(1), User = db.Users.Find(1)};
-                    db.UserRoles.Add(adminRole);
                 }
 
 

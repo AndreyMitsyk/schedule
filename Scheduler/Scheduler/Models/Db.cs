@@ -1,7 +1,6 @@
-﻿using System.Data.Entity;
-
-namespace Scheduler.Models
+﻿namespace Scheduler.Models
 {
+    using System.Data.Entity;
     public class Db : DbContext
     {
         public Db()
@@ -21,9 +20,6 @@ namespace Scheduler.Models
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<TeachSubj> TeachSubjs { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        
     }
 }
