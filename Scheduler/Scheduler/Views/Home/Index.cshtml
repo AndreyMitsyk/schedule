@@ -22,12 +22,12 @@
         </div>
         <div class="form-group">
             <label>Курс</label>
-            @Html.DropDownListFor(model => model.Search.CourseId, db.Groups.ToArray().Select(a =>
-                    new SelectListItem
-                    {
-                        Text = (DateTime.Now.Year - a.YearOfReceipt).ToString(),
-                        Value = a.Id.ToString(CultureInfo.InvariantCulture)
-                    }), new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.Search.CourseId, new[] {"1", "2", "3", "4"}.Select(a =>
+            new SelectListItem
+            {
+                Text = a,
+                Value = a
+            }), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>Группа</label>
@@ -40,12 +40,12 @@
         </div>
         <div class="form-group">
             <label>Неделя</label>
-            @Html.DropDownListFor(model => model.Search.WeekNumberId, db.ScheduleItems.ToArray().Select(a =>
-                new SelectListItem
-                {
-                    Text = a.WeekNumber.ToString(),
-                    Value = a.Id.ToString(CultureInfo.InvariantCulture)
-                }), new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.Search.WeekNumberId, new[] { "1", "2"}.Select(a =>
+            new SelectListItem
+            {
+                Text = a,
+                Value = a
+            }), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <button type="button" class="btn btn-default navbar-btn" onclick="loadInfo()">Показать</button>
@@ -77,7 +77,7 @@
             @foreach (var time in db.LessonTimes.ToArray())
             {
                 <tr>
-                    <td class="animated zoomIn">@time.TimeOfBegin + @time.TimeOfEnd</td>
+                    <td class="animated zoomIn">@time.TimeOfBegin.ToString("HH:mm") - @time.TimeOfEnd.ToString("HH:mm")</td>
 
                     @foreach (var item in db.DayOfWeekItems.ToArray())
                     {
