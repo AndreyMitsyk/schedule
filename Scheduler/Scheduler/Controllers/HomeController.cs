@@ -102,10 +102,10 @@
 
             if (cookieValue!=Adminmd | cookieValue == null)
                 return RedirectToAction("Index");
-        
+
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
                 .Include("LessonType").Include("Teacher").Include("Auditorium")
-                .Where(model => model.Group.Faculty.Id == facultyId && (DateTime.Now.Year - model.Group.YearOfReceipt) == courseId &&
+                .Where(model => model.Group.Faculty.Id == facultyId && 
                                 model.GroupId == groupId && model.WeekNumber == weekNumberId &&
                                 model.DayOfWeekItemId == dayOfWeekItemId).ToList();
 
@@ -237,21 +237,22 @@
         {
             using (var db = new Db())
             {
-               var u = db.Users.Include("Role").FirstOrDefault(user1 => user1.Email == user.Email & user1.Password == user.Password);
+               var u = db.Users.Include("Roles").FirstOrDefault(user1 => user1.Email == user.Email & user1.Password == user.Password);
                 if (u != null)
                 {
                     ViewBag.Error = false;
                     HttpCookie httpCookie = Response.Cookies[CookieName];
-                    //if (u.Role.RoleName == "admin")
-                    //{
-                    //    // TODO: md5 generatoin.
-                    //    if (httpCookie != null)
-                    //    {
-                    //        httpCookie.Value = Adminmd;
-                    //        httpCookie.Expires = DateTime.Now.AddDays(7);
-                    //    }
-                    //    return RedirectToAction("Admin");
-                    //}
+                    Role role = db.Roles.FirstOrDefault(role1 => role1.RoleName == "admin");
+                    if (u.Roles.Contains(role))
+                    {
+                        // TODO: md5 generatoin.
+                        if (httpCookie != null)
+                        {
+                            httpCookie.Value = Adminmd;
+                            httpCookie.Expires = DateTime.Now.AddDays(7);
+                        }
+                        return RedirectToAction("Admin");
+                    }
 
                     if (httpCookie != null)
                     {
