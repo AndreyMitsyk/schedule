@@ -19,10 +19,10 @@
             </div>
             <div class="form-group">
                 <label>Курс</label>
-                @Html.DropDownListFor(model => model.Search.CourseId, db.Courses.ToArray().Select(a =>
+                @Html.DropDownListFor(model => model.Search.CourseId, db.Groups.ToArray().Select(a =>
                     new SelectListItem
                     {
-                        Text = a.Name,
+                        Text = (DateTime.Now.Year - a.YearOfReceipt).ToString(),
                         Value = a.Id.ToString(CultureInfo.InvariantCulture)
                     }), new { @class = "form-control" })
             </div>
@@ -46,10 +46,10 @@
             </div>
             <div class="form-group">
                 <label>Неделя</label>
-                @Html.DropDownListFor(model => model.Search.WeekNumberId, db.WeekNumbers.ToArray().Select(a =>
+                @Html.DropDownListFor(model => model.Search.WeekNumberId, db.ScheduleItems.ToArray().Select(a =>
                     new SelectListItem
                     {
-                        Text = a.Name,
+                        Text = a.WeekNumber.ToString(),
                         Value = a.Id.ToString(CultureInfo.InvariantCulture)
                     }), new { @class = "form-control" })
             </div>
@@ -82,30 +82,30 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int index = 0; index < Model.Items.Length; index++)
+                @foreach (ScheduleItem t in Model.Items)
                 {
                     <tr>
                         <td>
-                            @Model.Items[index].LessonTime.Name
+                            @t.LessonTime.TimeOfBegin + @t.LessonTime.TimeOfEnd
 
-                            @Html.HiddenFor(model => Model.Items[index].LessonTimeId)
-                            @Html.HiddenFor(model => Model.Items[index].Id)
+                            @Html.HiddenFor(model => t.LessonTimeId)
+                            @Html.HiddenFor(model => t.Id)
                         </td>
                         <td>
-                            @Html.DropDownListFor(model => Model.Items[index].SubjectId, new SelectList(db.Subjects.ToArray(),
-                                "Id", "Name", Model.Items[index].SubjectId), "", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => t.SubjectId, new SelectList(db.Subjects.ToArray(),
+                                "Id", "Name", t.SubjectId), "", new { @class = "form-control" })
                         </td>
                         <td>
-                            @Html.DropDownListFor(model => Model.Items[index].LessonTypeId, new SelectList(db.LessonTypes.ToArray(),
-                                "Id", "Name", Model.Items[index].LessonTypeId), "", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => t.LessonTypeId, new SelectList(db.LessonTypes.ToArray(),
+                                "Id", "Name", t.LessonTypeId), "", new { @class = "form-control" })
                         </td>
                         <td>
-                            @Html.DropDownListFor(model => Model.Items[index].TeacherId, new SelectList(db.Teachers.ToArray(),
-                                "Id", "Name", Model.Items[index].TeacherId), "", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => t.TeacherId, new SelectList(db.Teachers.ToArray(),
+                                "Id", "Name", t.TeacherId), "", new { @class = "form-control" })
                         </td>
                         <td>
-                            @Html.DropDownListFor(model => Model.Items[index].AuditoriumId, new SelectList(db.Auditoriums.ToArray(),
-                                "Id", "Name", Model.Items[index].AuditoriumId), "", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => t.AuditoriumId, new SelectList(db.Auditoriums.ToArray(),
+                                "Id", "Name", t.AuditoriumId), "", new { @class = "form-control" })
                         </td>
                     </tr>
                 }

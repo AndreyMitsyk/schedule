@@ -50,8 +50,8 @@
             // Загрузка данных расписания из БД.
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
                  .Include("LessonType").Include("Teacher").Include("Auditorium")
-                 .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
-                                 model.GroupId == groupId && model.WeekNumberId == weekNumberId).ToArray();
+                 .Where(model => model.Group.Faculty.Id == facultyId && (DateTime.Now.Year - model.Group.YearOfReceipt) == courseId &&
+                                 model.GroupId == groupId && model.WeekNumber == weekNumberId).ToArray();
 
             var search = new SearchModel
             {
@@ -105,17 +105,15 @@
         
             var items = _db.ScheduleItems.Include("LessonTime").Include("Subject")
                 .Include("LessonType").Include("Teacher").Include("Auditorium")
-                .Where(model => model.FacultyId == facultyId && model.CourseId == courseId &&
-                                model.GroupId == groupId && model.WeekNumberId == weekNumberId &&
+                .Where(model => model.Group.Faculty.Id == facultyId && (DateTime.Now.Year - model.Group.YearOfReceipt) == courseId &&
+                                model.GroupId == groupId && model.WeekNumber == weekNumberId &&
                                 model.DayOfWeekItemId == dayOfWeekItemId).ToList();
 
             if (!items.Any())
                 items.AddRange(_db.LessonTimes.ToArray().Select(lessonTime => _db.ScheduleItems.Add(new ScheduleItem
                 {
-                    FacultyId = facultyId,
-                    CourseId = courseId,
                     GroupId = groupId,
-                    WeekNumberId = weekNumberId,
+                    WeekNumber = (byte) weekNumberId,
                     DayOfWeekItemId = dayOfWeekItemId,
                     LessonTimeId = lessonTime.Id,
                 })));
@@ -141,10 +139,9 @@
         {
             foreach (var item in model.Items)
             {
-                item.FacultyId = model.Search.FacultyId;
-                item.CourseId = model.Search.CourseId;
+                item.Group.Faculty.Id = model.Search.FacultyId;
                 item.GroupId = model.Search.GroupId;
-                item.WeekNumberId = model.Search.WeekNumberId;
+                item.WeekNumber = (byte) model.Search.WeekNumberId;
                 item.DayOfWeekItemId = model.Search.DayOfWeekItemId;
 
                 _db.Entry(item).State = EntityState.Modified;
@@ -207,7 +204,6 @@
         {
             using (var db = new Db())
             {
-                user.Role = db.Roles.FirstOrDefault(role1 => role1.RoleName == "user");
                 var firstOrDefault = db.Users.FirstOrDefault(user1 => user1.Email == user.Email);
                 if (firstOrDefault != null)
                 {
@@ -246,16 +242,16 @@
                 {
                     ViewBag.Error = false;
                     HttpCookie httpCookie = Response.Cookies[CookieName];
-                    if (u.Role.RoleName == "admin")
-                    {
-                        // TODO: md5 generatoin.
-                        if (httpCookie != null)
-                        {
-                            httpCookie.Value = Adminmd;
-                            httpCookie.Expires = DateTime.Now.AddDays(7);
-                        }
-                        return RedirectToAction("Admin");
-                    }
+                    //if (u.Role.RoleName == "admin")
+                    //{
+                    //    // TODO: md5 generatoin.
+                    //    if (httpCookie != null)
+                    //    {
+                    //        httpCookie.Value = Adminmd;
+                    //        httpCookie.Expires = DateTime.Now.AddDays(7);
+                    //    }
+                    //    return RedirectToAction("Admin");
+                    //}
 
                     if (httpCookie != null)
                     {
