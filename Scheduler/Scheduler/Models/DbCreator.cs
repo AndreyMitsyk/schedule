@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// Действия пр запуске.
+        /// Действия при запуске.
         /// </summary>
         public static void Run()
         {

@@ -113,7 +113,7 @@
                 items.AddRange(_db.LessonTimes.ToArray().Select(lessonTime => _db.ScheduleItems.Add(new ScheduleItem
                 {
                     GroupId = groupId,
-                    WeekNumber = (byte) weekNumberId,
+                    WeekNumber = weekNumberId,
                     DayOfWeekItemId = dayOfWeekItemId,
                     LessonTimeId = lessonTime.Id,
                 })));
