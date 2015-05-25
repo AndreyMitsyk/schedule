@@ -57,7 +57,7 @@
     </div>
 </form>
 <script>
-    $('select').change(function () {
+    $('select').on('change', function () {
         $.blockUI({ message: '<h4><img src="/images/busy.gif" /> Подождите...</h4>' });
         $('form')[0].submit();
     });
