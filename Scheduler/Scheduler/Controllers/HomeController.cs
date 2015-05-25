@@ -42,7 +42,7 @@
         /// <param name="groupId">ID группы</param>
         /// <param name="weekNumberId">ID номера недели</param>
         /// <returns>Расписание для группы.</returns>
-        public ActionResult Index(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1)
+        public ActionResult Index(int facultyId = 1, int courseId = 1, int groupId = 1, byte weekNumberId = 1)
         {
             // Проверка cookies.
             CheckCookies();
@@ -90,7 +90,7 @@
         /// <param name="weekNumberId">ID номера недели</param>
         /// <param name="dayOfWeekItemId">ID дня недели</param>
         /// <returns></returns>
-        public ActionResult Admin(int facultyId = 1, int courseId = 1, int groupId = 1, int weekNumberId = 1,
+        public ActionResult Admin(int facultyId = 1, int courseId = 1, int groupId = 1, byte weekNumberId = 1,
             int dayOfWeekItemId = 1)
         {
             CheckCookies();
@@ -141,7 +141,7 @@
             {
                 item.Group.Faculty.Id = model.Search.FacultyId;
                 item.GroupId = model.Search.GroupId;
-                item.WeekNumber = (byte) model.Search.WeekNumberId;
+                item.WeekNumber = model.Search.WeekNumberId;
                 item.DayOfWeekItemId = model.Search.DayOfWeekItemId;
 
                 _db.Entry(item).State = EntityState.Modified;

@@ -8,7 +8,7 @@
 
         public int GroupId { get; set; }
 
-        public int WeekNumberId { get; set; }
+        public byte WeekNumberId { get; set; }
 
         public int DayOfWeekItemId { get; set; }
     }

@@ -40,7 +40,7 @@
         </div>
         <div class="form-group">
             <label>Неделя</label>
-            @Html.DropDownListFor(model => model.Search.WeekNumberId, new[] { "1", "2"}.Select(a =>
+            @Html.DropDownListFor(model => model.Search.WeekNumberId, new[] { "1", "2" }.Select(a =>
             new SelectListItem
             {
                 Text = a,
@@ -88,7 +88,14 @@
                         if (q != null)
                         {
                             <td>
-                                @q.Subject.Do(a => a.Name)
+                                @q.Subject.Do(a => a.Name) 
+                                <p></p>
+                                @if (q.LessonType != null)
+                                {
+                                    <label class="badge">
+                                        @q.LessonType.Name
+                                    </label>
+                                }
                                 <p></p>
                                 @q.Teacher.Do(a => a.Name)
                                 <p></p>
@@ -100,6 +107,10 @@
                                 }
                             </td>
                         }
+                        else
+                        {
+                            <td></td>
+                    }
                     }
                 </tr>
             }
