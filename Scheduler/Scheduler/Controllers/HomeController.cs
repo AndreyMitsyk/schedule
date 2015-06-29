@@ -118,13 +118,14 @@
                     LessonTimeId = lessonTime.Id,
                 })));
             _db.SaveChanges();
+
             var search = new SearchModel
             {
                 FacultyId = facultyId,
                 CourseId = courseId,
                 GroupId = groupId,
                 WeekNumberId = weekNumberId,
-                DayOfWeekItemId = dayOfWeekItemId
+                DayOfWeekItemId = dayOfWeekItemId,
             };
             return View(new AdminModel { Items = items.ToArray(), Search = search });
         }
@@ -172,7 +173,7 @@
                 model.Search.CourseId,
                 model.Search.GroupId,
                 model.Search.WeekNumberId,
-                model.Search.DayOfWeekItemId,
+                model.Search.DayOfWeekItemId
             });
         }
 

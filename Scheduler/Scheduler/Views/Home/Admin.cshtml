@@ -86,9 +86,9 @@
                 {
                     <tr>
                         <td>
-                            @Html.DropDownListFor(model => t.LessonTimeId, new SelectList(db.LessonTimes.ToArray().Select(x => new { Id = x.Id, Name = x.TimeOfBegin.ToString(@"hh\:mm") + "-" + x.TimeOfEnd.ToString(@"hh\:mm")}),
+                            @Html.DropDownListFor(model => t.LessonTimeId, new SelectList(db.LessonTimes.ToArray().Select(x => new {x.Id, Name = x.TimeOfBegin.ToString(@"hh\:mm") + "-" + x.TimeOfEnd.ToString(@"hh\:mm")}),
                                 "Id", "Name", t.LessonTimeId), "", new { @class = "form-control" })
-                            </td>
+                        </td>
                         <td>
                             @Html.DropDownListFor(model => t.SubjectId, new SelectList(db.Subjects.ToArray(),
                                 "Id", "Name", t.SubjectId), "", new { @class = "form-control" })
