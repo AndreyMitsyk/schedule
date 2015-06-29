@@ -77,7 +77,7 @@
             @foreach (var time in db.LessonTimes.ToArray())
             {
                 <tr>
-                    <td class="animated zoomIn">@time.TimeOfBegin.ToString("HH:mm") - @time.TimeOfEnd.ToString("HH:mm")</td>
+                    <td class="animated zoomIn">@time.TimeOfBegin.ToString(@"hh\:mm") - @time.TimeOfEnd.ToString(@"hh\:mm")</td>
 
                     @foreach (var item in db.DayOfWeekItems.ToArray())
                     {

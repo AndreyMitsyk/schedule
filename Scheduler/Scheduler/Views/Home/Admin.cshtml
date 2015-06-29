@@ -86,11 +86,9 @@
                 {
                     <tr>
                         <td>
-                            @t.LessonTime.TimeOfBegin.ToString("HH:mm") - @t.LessonTime.TimeOfEnd.ToString("HH:mm")
-
-                            @Html.HiddenFor(model => t.LessonTimeId)
-                            @Html.HiddenFor(model => t.Id)
-                        </td>
+                            @Html.DropDownListFor(model => t.LessonTimeId, new SelectList(db.LessonTimes.ToArray().Select(x => new { Id = x.Id, Name = x.TimeOfBegin.ToString(@"hh\:mm") + "-" + x.TimeOfEnd.ToString(@"hh\:mm")}),
+                                "Id", "Name", t.LessonTimeId), "", new { @class = "form-control" })
+                            </td>
                         <td>
                             @Html.DropDownListFor(model => t.SubjectId, new SelectList(db.Subjects.ToArray(),
                                 "Id", "Name", t.SubjectId), "", new { @class = "form-control" })
@@ -112,7 +110,7 @@
             </tbody>
         </table>
         <div class="row">
-            <input type="submit" class="btn btn-primary pull-right" value="Сохранить" />
+            <input type="submit" class="btn btn-primary pull-right" value="Сохранить" style="margin-right: 20px;" />
         </div>
     </form>
 </div>
